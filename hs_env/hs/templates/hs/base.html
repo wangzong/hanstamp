@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>
+        <a href="{% url 'hs:index' %}">漢印文字徵</a>
+
+        {% if user.is_authenticated %}
+            你好，{{ user.username }}。
+            <a href="{% url 'users:logout' %}">退出</a>
+        {% else %}
+            <a href="{% url 'users:register' %}">注册</a>
+            <a href="{% url 'users:login' %}">登录</a>
+        {% endif %}
+    </p>
+
+    {% block content %}{% endblock content %}
+</body>
+</html>

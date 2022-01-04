@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加汉字</title>
+</head>
+<body>
+    {% extends "hs/base.html" %}
+
+    {% block content %}
+        <p>添加新汉字</p>
+
+        <form action="{% url 'hs:new_hanzi' %}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button name="submit">添加汉字</button>
+        </form>
+    {% endblock content %}
+
+
+</body>
+</html>
