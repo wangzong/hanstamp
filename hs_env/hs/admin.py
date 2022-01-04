@@ -4,4 +4,5 @@ from django.contrib import admin
 
 from .models import Wzz
 
+# Claim WenZiZheng
 admin.site.register(Wzz)
