@@ -6,18 +6,17 @@ from .forms import HanziForm
 # Create your views here.
 def index(request):
     """定义主页"""
+    # 此函数是由urls.py中调用的
     hanzis = Wzz.objects.all()
     context = {"hanzis":hanzis}
     return render(request,'hs/index.html', context)
     # return render(request, 'hs/index.html')
 
-def hanzis(request):
+def hanzi(request):
     """显示所有汉字"""
-    hanzis = Wzz.objects.all()
-    # print(hanzis)
-    context = {"hanzis":hanzis}
-    # context = {"hanzis":['王']}
-    return render(request,'hs/index.html', context)
+    hanzi = Wzz.objects.get(character="神")
+    context = {"hanzi":hanzi}
+    return render(request,'hs/hanzi.html', context)
 
 # def hanzi(request, char_id):
 #     char = WZZ.objects.get(id=char_id)
