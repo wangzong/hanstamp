@@ -14,7 +14,15 @@
 
     <p>显示单个汉字</p>
 
-    {{ hanzi }}
+    {% if error_msg %}
+        <p>{{ error_msg }}</p>
+    {% endif %}
+
+    {% for hanzi in hanzis %}
+        <li>{{ hanzi }}</li>
+    {% empty %}
+        <li>数据库中暂无此字。</li>
+    {% endfor %}
 
     {% endblock content %}
 

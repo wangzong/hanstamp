@@ -6,5 +6,6 @@ app_name = 'hs'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('hanzi/', views.hanzi, name='hanzi'),
+    path('hanzi/<str:char>', views.hanzis, name='hanzi'),
+    path('search/', views.search, name='search'),
 ]

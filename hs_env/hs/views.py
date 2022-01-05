@@ -7,16 +7,31 @@ from .forms import HanziForm
 def index(request):
     """定义主页"""
     # 此函数是由urls.py中调用的
-    hanzis = Wzz.objects.all()
-    context = {"hanzis":hanzis}
-    return render(request,'hs/index.html', context)
+    # hanzis = Wzz.objects.all()
+    # context = {"hanzis":hanzis}
+    return render(request,'hs/index.html')
     # return render(request, 'hs/index.html')
 
-def hanzi(request):
+def hanzis(request,char="神"):
     """显示所有汉字"""
-    hanzi = Wzz.objects.get(character="神")
-    context = {"hanzi":hanzi}
+    # 可能是多个相同字的记录
+    hanzis = Wzz.objects.filter(character=char)
+    context = {"hanzis":hanzis}
     return render(request,'hs/hanzi.html', context)
+
+
+def search(request):
+    searchinput = request.GET.get('search')
+    error_msg = ''
+
+    if not searchinput:
+        error_msg = '请输入关键词'
+        return render(request, 'hs/index.html', {'error_msg': error_msg})
+
+    hanzis = Wzz.objects.filter(character=searchinput)
+    if len(hanzis) == 0:
+        error_msg = '未找到此字'
+    return render(request, 'hs/index.html', {'hanzis': hanzis,'error_msg':error_msg })
 
 # def hanzi(request, char_id):
 #     char = WZZ.objects.get(id=char_id)

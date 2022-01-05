@@ -8,17 +8,26 @@
     {% extends "hs/base.html" %}
 
     {% block content %}
-    <p>汉印文字征</p>
+    <p></p>
 
-    <p>这是《汉印文字征》的查询工具</p>
+<!--    <p>这是《汉印文字征》的查询工具</p>-->
 
-    <p>汉字库</p>
+    <form method="get" action="/search/">
+      {% csrf_token %}
+      <input type="search" name='search' placeholder="搜索" required>
+      <button type="submit">搜索</button>
+    </form>
+
+    {% if error_msg %}
+        <p>{{ error_msg }}</p>
+    {% endif %}
 
     {% for hanzi in hanzis %}
         <li>{{ hanzi }}</li>
-    {% empty %}
-        <li>数据库中暂无汉字。</li>
     {% endfor %}
+
+
+
 
 
     {% endblock content %}
