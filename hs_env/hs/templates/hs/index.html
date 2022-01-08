@@ -8,14 +8,17 @@
     {% extends "hs/base.html" %}
 
     {% block content %}
-    <p></p>
+<!--    <p>早上卷中午卷晚上卷何时不卷</p>-->
+<!--    <p>魏碑班书刻班楷行班还报啥班</p>-->
+    {% load static %}
+<!--    <img src="{% static '\汉印文字征分列图片\juan.jpg' %}" height=10% width=10%>-->
 
 <!--    <p>这是《汉印文字征》的查询工具</p>-->
 
     <form method="get" action="/search/">
       {% csrf_token %}
-      <input type="search" name='search' placeholder="搜索" required>
-      <button type="submit">搜索</button>
+      <input type="search" name='search' placeholder="欢迎来卷" required>
+      <button type="submit">卷一个</button>
     </form>
 
     {% if error_msg %}
@@ -23,11 +26,10 @@
     {% endif %}
 
     {% for hanzi in hanzis %}
-        <li>{{ hanzi }}</li>
+        <li>{{ hanzi.character }} {{ hanzi.component }} {{ hanzi.picurl }}</li>
+        <img src="{% static hanzi.picurl %}" height=3% width=3%/>
+
     {% endfor %}
-
-
-
 
 
     {% endblock content %}

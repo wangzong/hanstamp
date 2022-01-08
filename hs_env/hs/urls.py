@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'hs'
 
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('hanzi/<str:char>', views.hanzis, name='hanzi'),

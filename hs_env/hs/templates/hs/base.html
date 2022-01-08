@@ -6,7 +6,7 @@
 </head>
 <body>
     <p>
-        <a href="{% url 'hs:index' %}">漢印文字徵</a>
+        <a href="{% url 'hs:index' %}">主页</a>
 
         {% if user.is_authenticated %}
             你好，{{ user.username }}。

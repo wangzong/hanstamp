@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
+import sqlite3
 
 from .models import Wzz
 from .forms import HanziForm
 
 # Create your views here.
+
+picurl = '\\汉印文字征分列图片'
+
 def index(request):
     """定义主页"""
     # 此函数是由urls.py中调用的
@@ -15,23 +20,44 @@ def index(request):
 def hanzis(request,char="神"):
     """显示所有汉字"""
     # 可能是多个相同字的记录
-    hanzis = Wzz.objects.filter(character=char)
+    # hanzis = Wzz.objects.get(component_contains=char)
+    # hanzis = Wzz.objects.filter(Q(character=char)|Q(component__contains=char))
     context = {"hanzis":hanzis}
     return render(request,'hs/hanzi.html', context)
 
 
 def search(request):
     searchinput = request.GET.get('search')
+    # 这里的search是index.html中的name=search的form
     error_msg = ''
 
+    # 这句可以不要，因为search的form已经是required
     if not searchinput:
         error_msg = '请输入关键词'
         return render(request, 'hs/index.html', {'error_msg': error_msg})
 
-    hanzis = Wzz.objects.filter(character=searchinput)
-    if len(hanzis) == 0:
+    # hanzis = Wzz.objects.filter(character=searchinput)
+    # hanzis = Wzz.objects.filter(Q(component__contains=searchinput)|Q(character=searchinput))
+
+    mydb = sqlite3.connect('db.sqlite3')
+    mydb.row_factory = sqlite3.Row
+    # cursor = mydb.cursor()
+    sql_statement = "SELECT * from wzz where character='" + searchinput + "'" \
+                    + "OR component like '%" + searchinput +"%'"
+    values = mydb.execute(sql_statement).fetchall()
+    # print(values)
+    # result = query.fetchall()
+
+    list_result = []
+
+    if len(values) == 0:
         error_msg = '未找到此字'
-    return render(request, 'hs/index.html', {'hanzis': hanzis,'error_msg':error_msg })
+    dict_values = []
+    for value in values:
+        dict_values.append({"character": value['character'],
+                            "component": value['component'],
+                            "picurl": picurl + '\\'+ value['index_code']+'.jpg'})
+    return render(request, 'hs/index.html', {'hanzis': dict_values,'error_msg':error_msg })
 
 # def hanzi(request, char_id):
 #     char = WZZ.objects.get(id=char_id)
