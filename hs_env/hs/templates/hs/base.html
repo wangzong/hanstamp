@@ -1,22 +1,45 @@
+{% load bootstrap4 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1, shrink-to-fit=no">
     <title>Title</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
 </head>
 <body>
-    <p>
-        <a href="{% url 'hs:index' %}">主页</a>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'hs:index' %}">主页</a>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text">你好，{{ user.username }}。</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:logout' %}">退出</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}">注册</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">登录</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 
-        {% if user.is_authenticated %}
-            你好，{{ user.username }}。
-            <a href="{% url 'users:logout' %}">退出</a>
-        {% else %}
-            <a href="{% url 'users:register' %}">注册</a>
-            <a href="{% url 'users:login' %}">登录</a>
-        {% endif %}
-    </p>
-
-    {% block content %}{% endblock content %}
+    <main role="main" class="container">
+        <div>
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
 </body>
 </html>
