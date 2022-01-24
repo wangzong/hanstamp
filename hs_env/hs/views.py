@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 import sqlite3
+import logging
 
 from .models import Wzz
 from .forms import HanziForm
@@ -8,6 +9,8 @@ from .forms import HanziForm
 # Create your views here.
 
 picurl = '\\汉印文字征分列图片'
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def index(request):
     """定义主页"""
@@ -42,9 +45,11 @@ def search(request):
     mydb = sqlite3.connect('db.sqlite3')
     mydb.row_factory = sqlite3.Row
     # cursor = mydb.cursor()
-    sql_statement = "SELECT * from wzz where character='" + searchinput + "'" \
-                    + "OR component like '%" + searchinput +"%'"
+    sql_statement = "SELECT * from wzz where character like '%" + searchinput + "%'" \
+                    + "OR component like '%" + searchinput +"%'" \
+                    + "OR simplified like '%" + searchinput +"%'"
     values = mydb.execute(sql_statement).fetchall()
+    logger.info(values)
     # print(values)
     # result = query.fetchall()
 
@@ -56,6 +61,7 @@ def search(request):
     for value in values:
         dict_values.append({"character": value['character'],
                             "component": value['component'],
+                            "simplified": value['simplified'],
                             "picurl": picurl + '\\'+ value['index_code']+'.jpg'})
     return render(request, 'hs/index.html', {'hanzis': dict_values,'error_msg':error_msg })
 

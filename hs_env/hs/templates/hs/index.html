@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>汉印文字征</title>
+    <title>只要卷不死，就往死里卷</title>
 </head>
+
+
+
 <body>
+
     {% extends "hs/base.html" %}
 
     {% block content %}
@@ -14,22 +18,34 @@
 <!--    <img src="{% static '\汉印文字征分列图片\juan.jpg' %}" height=10% width=10%>-->
 
 <!--    <p>这是《汉印文字征》的查询工具</p>-->
+    <div class="jumbotron">
+        <form method="get" action="/search/">
+    <!--      {% csrf_token %}-->
+          <input type="search" name='search' placeholder="欢迎来卷" required>
+          <button type="submit">卷一个</button>
+        </form>
 
-    <form method="get" action="/search/">
-<!--      {% csrf_token %}-->
-      <input type="search" name='search' placeholder="欢迎来卷" required>
-      <button type="submit">卷一个</button>
-    </form>
+        {% if error_msg %}
+            <p>{{ error_msg }}</p>
+        {% endif %}
 
-    {% if error_msg %}
-        <p>{{ error_msg }}</p>
-    {% endif %}
+        {% for hanzi in hanzis %}
+            <div class="col-auto mb-3">
+                <div class="card mb-3 mt-3" style="width: 20rem">
+                    <h4 class="card-header"> 字：{{ hanzi.character }} </h4>
+                    <div class="card-body">
+                        部首：{{ hanzi.component }}
+                        简体字：{{ hanzi.simplified }}
+                    </div>
+                    <img src="{% static hanzi.picurl %}" height=100% width=100%/>
+                </div>
+            </div>
 
-    {% for hanzi in hanzis %}
-        <li>{{ hanzi.character }} {{ hanzi.component }} {{ hanzi.picurl }}</li>
-        <img src="{% static hanzi.picurl %}" height=3% width=3%/>
+        {% endfor %}
+    </div>
 
-    {% endfor %}
+
+
 
 
     {% endblock content %}

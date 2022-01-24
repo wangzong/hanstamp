@@ -9,37 +9,53 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
 </head>
+
+<style type="text/css">
+   body { background: CadetBlue !important; }
+</style>
+
 <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark mb-4 border">
+        <a class="navbar-brand" href="{% url 'hs:index' %}">主页</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarCollapse" aria-controls="navbarCollapse"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'hs:index' %}">主页</a>
-        <ul class="navbar-nav ml-auto">
-            {% if user.is_authenticated %}
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <span class="navbar-text">你好，{{ user.username }}。</span>
+                    <a class="nav-link" href="https://docs.qq.com/sheet/DTEhOSnR3c2hISEFi">有话好好说</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:logout' %}">退出</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:register' %}">注册</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:login' %}">登录</a>
-                </li>
-            {% endif %}
-        </ul>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item ml-auto">
+                        <span class="navbar-text">你好，{{ user.username }}。</span>
+                    </li>
+                    <li class="nav-item mr-auto">
+                        <a class="nav-link" href="{% url 'users:logout' %}">退出</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item mr-auto">
+                        <a class="nav-link" href="{% url 'users:register' %}">注册</a>
+                    </li>
+
+                    <li class="nav-item mr-auto">
+                        <a class="nav-link" href="{% url 'users:login' %}">登录</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 
-    <main role="main" class="container">
+    <main role="main" class="container" >
         <div>
             {% block content %}{% endblock content %}
         </div>
     </main>
 </body>
+
 </html>
