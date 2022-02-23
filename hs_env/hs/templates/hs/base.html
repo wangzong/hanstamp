@@ -11,12 +11,34 @@
 </head>
 
 <style type="text/css">
-   body { background: CadetBlue !important; }
+   body { background: #2E372E !important; }
+   .navbar-custom {
+        color: #2E372E !important;
+        background-color: #817B69 !important;
+        }
+   ::-webkit-scrollbar {
+        width: 10px;
+        }
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #A5BA93;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
 </style>
 
 <body>
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark mb-4 border">
+<!--    <nav class="navbar navbar-expand navbar-dark bg-light mb-4 border" >-->
+    <nav class="navbar navbar-custom navbar-expand navbar-dark mb-4 border">
         <a class="navbar-brand" href="{% url 'hs:index' %}">主页</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarCollapse" aria-controls="navbarCollapse"
